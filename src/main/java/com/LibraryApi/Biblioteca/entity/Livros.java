@@ -21,16 +21,12 @@ public class Livros implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_livro")
     private Long id_livro;
-    @NotBlank
     @Column(name = "titulo", nullable = false, unique = true, length = 50)
     private String titulo;
-    @NotBlank
     @Column(name = "autor", nullable = false, length = 50)
     private String autor;
-    @NotBlank
     @Column(name = "genero", nullable = false, length = 25)
     private String genero;
-    @NotNull
     @Column(name = "data_publicacao", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate data_publicacao;

@@ -3,6 +3,7 @@ package com.LibraryApi.Biblioteca.controller;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
