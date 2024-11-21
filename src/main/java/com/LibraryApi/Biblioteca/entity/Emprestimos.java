@@ -19,10 +19,10 @@ public class Emprestimos {
     @Column(name = "id_emprestimo")
     private Long id_emprestimo;
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario", nullable = false, referencedColumnName = "id_usuario")
     private Usuarios id_usuario;
     @ManyToOne
-    @JoinColumn(name = "id_livro")
+    @JoinColumn(name = "id_livro", nullable = false, referencedColumnName = "id_livro")
     private Livros id_livro;
     @Column(name = "data_emprestimo", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

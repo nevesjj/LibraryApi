@@ -1,6 +1,8 @@
 package com.LibraryApi.Biblioteca.service;
 
 import com.LibraryApi.Biblioteca.entity.Emprestimos;
+import com.LibraryApi.Biblioteca.entity.Usuarios;
+import com.LibraryApi.Biblioteca.exception.LimiteEmprestimosExcedidoException;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.repository.EmprestimoRepositorio;
 import jakarta.transaction.Transactional;
@@ -13,11 +15,20 @@ import java.util.Optional;
 @Service
 public class EmprestimoService {
 
+    private static final int limite_emprestimos = 5;
+
     @Autowired
     private EmprestimoRepositorio emprestimoRepositorio;
 
     @Transactional
     public Emprestimos cadastrarEmprestimo(Emprestimos emprestimo) {
+        Usuarios usuario = emprestimo.getId_usuario();
+
+        long emprestimosAtivos = emprestimoRepositorio.countById_usuario(usuario);
+
+        if (emprestimosAtivos >= limite_emprestimos) {
+            throw new LimiteEmprestimosExcedidoException("Usuario ja atingiu o limite de emprestimos ativos.");
+        }
         return emprestimoRepositorio.save(emprestimo);
     }
 
@@ -45,5 +56,6 @@ public class EmprestimoService {
     public List<Emprestimos> listarTodosEmprestimos() {
         return emprestimoRepositorio.findAll();
     }
+
 
 }
