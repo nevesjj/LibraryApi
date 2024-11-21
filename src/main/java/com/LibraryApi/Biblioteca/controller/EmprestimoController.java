@@ -1,7 +1,6 @@
 package com.LibraryApi.Biblioteca.controller;
 
 import com.LibraryApi.Biblioteca.entity.Emprestimos;
-import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.EmprestimoService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +36,7 @@ public class EmprestimoController {
         return ResponseEntity.status(HttpStatus.OK).body(emprestimos);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Emprestimos> atualizarEmprestimo(@PathVariable Long id, @RequestBody Emprestimos emprestimo) {
         try {
@@ -47,10 +47,18 @@ public class EmprestimoController {
         }
     }
 
+    @PatchMapping("/{id}/devolver")
+    public ResponseEntity<Emprestimos> devolverLivro(@PathVariable Long id) {
+        Emprestimos emprestimo = emprestimoService.devolverLivro(id);
+        return ResponseEntity.status(HttpStatus.OK).body(emprestimo);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEmprestimo(@PathVariable Long id) {
         emprestimoService.deletarEmprestimo(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
 
 }

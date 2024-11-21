@@ -7,8 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class LivroService {
@@ -43,5 +42,24 @@ public class LivroService {
 
     public List<Livros> listarTodosLivros() {
         return livroRepositorio.findAll();
+    }
+
+    public List<Map<String, Object>> buscarLivrosMaisEmprestados() {
+        List<Object[]> resultados = livroRepositorio.buscarLivrosMaisEmprestados();
+
+        List<Map<String, Object>> livrosMaisEmprestados = new ArrayList<>();
+
+        for (Object[] resultado : resultados) {
+            Map<String, Object> livroInfo = new HashMap<>();
+            Livros livro = (Livros) resultado[0];
+            Long quantidade = (Long) resultado[1];
+
+            livroInfo.put("livro", livro);
+            livroInfo.put("quantidadeEmprestimos", quantidade);
+
+            livrosMaisEmprestados.add(livroInfo);
+        }
+
+        return livrosMaisEmprestados;
     }
 }

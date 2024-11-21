@@ -3,13 +3,13 @@ package com.LibraryApi.Biblioteca.controller;
 import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.LivroService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -35,6 +35,12 @@ public class LivroController {
     public ResponseEntity<List<Livros>> buscarTodosLivros() {
         List<Livros> livros = livroService.listarTodosLivros();
         return ResponseEntity.status(HttpStatus.OK).body(livros);
+    }
+
+    @GetMapping("/mais-emprestados")
+    public ResponseEntity<List<Map<String, Object>>> buscarLivrosMaisEmprestados() {
+        List<Map<String, Object>> livrosMaisEmprestados = livroService.buscarLivrosMaisEmprestados();
+        return ResponseEntity.status(HttpStatus.OK).body(livrosMaisEmprestados);
     }
 
     @PutMapping("/{id}")

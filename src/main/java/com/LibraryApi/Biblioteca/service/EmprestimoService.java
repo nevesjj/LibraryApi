@@ -20,6 +20,7 @@ public class EmprestimoService {
     @Autowired
     private EmprestimoRepositorio emprestimoRepositorio;
 
+
     @Transactional
     public Emprestimos cadastrarEmprestimo(Emprestimos emprestimo) {
         Usuarios usuario = emprestimo.getId_usuario();
@@ -49,6 +50,18 @@ public class EmprestimoService {
     }
 
     @Transactional
+    public Emprestimos devolverLivro(Long idEmprestimo) {
+        Emprestimos emprestimo = emprestimoRepositorio.findById(idEmprestimo)
+                .orElseThrow(() -> new ResourceNotFoundException("Empréstimo não encontrado"));
+
+        if (!emprestimo.isDevolucao()) {
+            emprestimo.setDevolucao(true);
+        }
+
+        return emprestimoRepositorio.save(emprestimo);
+    }
+
+    @Transactional
     public void deletarEmprestimo(Long id) {
         emprestimoRepositorio.deleteById(id);
     }
@@ -56,6 +69,5 @@ public class EmprestimoService {
     public List<Emprestimos> listarTodosEmprestimos() {
         return emprestimoRepositorio.findAll();
     }
-
 
 }

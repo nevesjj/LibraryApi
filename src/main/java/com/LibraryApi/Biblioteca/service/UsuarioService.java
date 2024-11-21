@@ -41,6 +41,10 @@ public class UsuarioService {
         usuarioRepositorio.deleteById(id);
     }
 
+    public List<Usuarios> buscarUsuariosComEmprestimosPendentes() {
+        return usuarioRepositorio.buscarUsuariosComEmprestimosPendentes();
+    }
+
     public List<Usuarios> listarTodosUsuarios() {
         return usuarioRepositorio.findAll();
     }

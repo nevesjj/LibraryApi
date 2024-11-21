@@ -3,7 +3,6 @@ package com.LibraryApi.Biblioteca.controller;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.UsuarioService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +34,12 @@ public class UsuarioController {
     public ResponseEntity<List<Usuarios>> buscarTodosUsuarios() {
         List<Usuarios> usuarios = usuarioService.listarTodosUsuarios();
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    }
+
+    @GetMapping("/emprestimos")
+    public ResponseEntity<List<Usuarios>> buscarUsuariosComEmprestimosPendentes() {
+        List<Usuarios> usuarios = usuarioService.buscarUsuariosComEmprestimosPendentes();
+        return ResponseEntity.ok(usuarios);
     }
 
     @PutMapping("/{id}")
