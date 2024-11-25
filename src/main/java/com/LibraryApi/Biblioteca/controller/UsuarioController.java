@@ -29,14 +29,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    @Operation(description = "Realiza a busca de um usuários com base no seu id")
+    @Operation(description = "Realiza a busca de um usuário com base no seu id")
     public ResponseEntity<Usuarios> buscarUsuario(@PathVariable Long id) {
         Optional<Usuarios> usuarios = usuarioService.buscarUsuario(id);
         return ResponseEntity.status(HttpStatus.OK).body(usuarios.get());
     }
 
     @GetMapping("/todos")
-    @Operation(description = "Realiza a busca de todos os usuários")
+    @Operation(description = "Realiza a busca de todos os usuários cadastrados")
     public ResponseEntity<List<Usuarios>> buscarTodosUsuarios() {
         List<Usuarios> usuarios = usuarioService.listarTodosUsuarios();
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
@@ -50,7 +50,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    @Operation(description = "Atualizar as informações de um usuários com base no seu id")
+    @Operation(description = "Atualizar as informações de um usuário com base no seu id")
     public ResponseEntity<Usuarios> atualizarUsuario(@PathVariable Long id, @RequestBody Usuarios usuario) {
         try {
             Usuarios atualizarUsuario = usuarioService.atualizarUsuario(id, usuario);
@@ -61,7 +61,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "Deletar o cadastro de um usuários com base no seu id")
+    @Operation(description = "Deletar o cadastro de um livro com base no seu id")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
