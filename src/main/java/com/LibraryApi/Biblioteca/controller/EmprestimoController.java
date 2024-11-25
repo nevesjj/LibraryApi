@@ -3,6 +3,7 @@ package com.LibraryApi.Biblioteca.controller;
 import com.LibraryApi.Biblioteca.entity.Emprestimos;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.EmprestimoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v1/emprestimos")
+@Tag(name = "Empréstimos")
 public class EmprestimoController {
 
     private final EmprestimoService emprestimoService;
