@@ -79,6 +79,12 @@ cd LibraryApi
 mvn spring-boot:run
 ```
 
+## Swagger
+- Com a aplicação em execução, é possível acessar o **Swagger**, onde estão documentados todos os endpoints, facilitando o entendimento do que faz cada endpoint e permitindo testá-los.  
+- **URL:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)  
+- Se a porta de execução foi alterada, na URL deve ser passada a porta definida.
+
+
 ## Licença
 
 Este projeto é dedicado ao domínio público sob a [CC0 1.0 Universal (CC0 1.0) Dedicação ao Domínio Público](https://creativecommons.org/publicdomain/zero/1.0/legalcode).
