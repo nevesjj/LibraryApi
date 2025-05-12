@@ -1,23 +1,7 @@
 # Library API
 
-API RESTful desenvolvida para realizar o gerenciamento de livros em uma biblioteca, permitindo o controle de usuários, livros e empréstimos.
+O **Library API** é uma API RESTful para gerenciar bibliotecas. O sistema permite o controle de usuários, livros e empréstimos, com funcionalidades como cadastro, busca, atualização e gerenciamento de devoluções e pendências.
 
-## Funcionalidades
-- **Controle de usuários**
-    - Cadastrar, deletar e atualizar usuários
-    - Buscar informações de todos os usuários ou de usuários específicos
-    - Verificar usuários com empréstimos pendentes
-    
-- **Controle de livros**
-    - Cadastrar, deletar e atualizar livros
-    - Realizar buscas de todos os livros ou livros específicos
-    - Realizar buscas dos livros mais emprestados
-    
-- **Controle de empréstimos**
-    - Realizar um novo empréstimo (Cada usuário pode realizar no máximo 5 empréstimos simultâneos)
-    - Atualizar um empréstimo
-    - Cadastrar a devolução de um livro
-    
 ## Instalação do projeto
 ### Pré-requisitos
 1. **Git**
@@ -79,27 +63,38 @@ cd LibraryApi
 mvn spring-boot:run
 ```
 
-## Swagger
-- Com a aplicação em execução, é possível acessar o **Swagger**, onde estão documentados todos os endpoints, facilitando o entendimento do que faz cada endpoint e permitindo testá-los.  
-- **URL:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)  
-- Se a porta de execução foi alterada, na URL deve ser passada a porta definida.
+## Como contribuir
 
+1. Faça um **fork** do repositório: Clique no botão "Fork" no canto superior direito da página do GitHub.
 
-## Licença
+2. Clone o seu fork localmente:
+```bash
+git clone git@github.com:SEU_USUARIO/LibraryApi.git
+```
 
-Este projeto é dedicado ao domínio público sob a [CC0 1.0 Universal (CC0 1.0) Dedicação ao Domínio Público](https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+3. Crie uma nova branch para sua funcionalidade ou correção:
+```bash
+git checkout -b minha-feature
+```
 
-## Contribuindo
+4. Implemente sua contribuição.
+Certifique-se de seguir os padrões de código e adicionar testes, se necessário.
 
-1. Faça um **fork** deste repositório.
-2. Crie uma nova branch para a sua feature ou correção.
-3. Faça as alterações necessárias.
-4. Abra um **Pull Request** explicando as mudanças que você fez.
+5.Commit suas alterações:
+```bash
+git add .
+git commit -m "Descrição da minha alteração"
+```
 
-## Autores
-- João Victor dos Santos Neves - 01577265
-- Arthur Axiotes de Souza - 01595285
-- Raul Gabriel Camelo Silva - 01623021
-- Vinícius Júnior - 01577523
-- Gabriel Vendiciano Barbosa - 01527603
-- Otton Arantes dos Santos - 01595267
+6. Envie sua branch para o repositório remoto:
+```bash
+git push origin minha-feature
+```
+
+7. Abra um Pull Request:
+Vá até o repositório original no GitHub e clique em "**New Pull Request**". Explique detalhadamente suas alterações.
+
+## Observações
+- Use mensagens de commit claras e objetivas.
+- Descreva o que foi feito e motivo das alterações no Pull Request.
+- Verifique se suas alterações não impactou negativamente no resto da aplicação.
