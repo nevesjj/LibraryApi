@@ -26,10 +26,10 @@ public class Emprestimos {
     private Livros id_livro;
     @Column(name = "data_emprestimo", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate data_emprestimo;
+    private LocalDate dataEmprestimo;
     @Column(name = "data_limite", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate data_limite;
+    private LocalDate dataLimite;
     @Column(name = "devolucao", nullable = false)
     private boolean devolucao;
 }

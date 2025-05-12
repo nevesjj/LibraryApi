@@ -6,6 +6,8 @@ import com.LibraryApi.Biblioteca.service.EmprestimoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,14 @@ public class EmprestimoController {
         Optional<Emprestimos> emprestimos = emprestimoService.buscarEmprestimo(id);
         return ResponseEntity.status(HttpStatus.OK).body(emprestimos.get());
     }
-
     @GetMapping("/todos")
+    @Operation(description = "Realiza a busca paginada de todos os empréstimos")
+    public ResponseEntity<Page<Emprestimos>> buscarTodosEmprestimos(Pageable pageable) {
+        Page<Emprestimos> emprestimos = emprestimoService.listarEmprestimosPaginados(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(emprestimos);
+    }
+
+    @GetMapping("/todos/sem-paginacao")
     @Operation(description = "Realiza a busca todos os empréstimos")
     public ResponseEntity<List<Emprestimos>> buscarTodosEmprestimos() {
         List<Emprestimos> emprestimos = emprestimoService.listarTodosEmprestimos();

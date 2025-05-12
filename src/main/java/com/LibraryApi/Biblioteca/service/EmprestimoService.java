@@ -7,6 +7,8 @@ import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.repository.EmprestimoRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,8 +44,8 @@ public class EmprestimoService {
         return emprestimoRepositorio.findById(id).map(emprestimos -> {
             emprestimos.setId_usuario(emprestimoAtualizado.getId_usuario());
             emprestimos.setId_livro(emprestimoAtualizado.getId_livro());
-            emprestimos.setData_emprestimo(emprestimoAtualizado.getData_emprestimo());
-            emprestimos.setData_limite(emprestimoAtualizado.getData_limite());
+            emprestimos.setDataEmprestimo(emprestimoAtualizado.getDataEmprestimo());
+            emprestimos.setDataLimite(emprestimoAtualizado.getDataLimite());
             emprestimos.setDevolucao(emprestimoAtualizado.isDevolucao());
             return emprestimoRepositorio.save(emprestimos);
         }).orElseThrow(() -> new ResourceNotFoundException("Id " + id + " não encontrado"));
@@ -69,5 +71,10 @@ public class EmprestimoService {
     public List<Emprestimos> listarTodosEmprestimos() {
         return emprestimoRepositorio.findAll();
     }
+
+    public Page<Emprestimos> listarEmprestimosPaginados(Pageable pageable) {
+        return emprestimoRepositorio.findAll(pageable);
+    }
+
 
 }
