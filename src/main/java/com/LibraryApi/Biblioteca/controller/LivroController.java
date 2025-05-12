@@ -1,11 +1,14 @@
 package com.LibraryApi.Biblioteca.controller;
 
+import com.LibraryApi.Biblioteca.entity.Emprestimos;
 import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.LivroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +40,13 @@ public class LivroController {
     }
 
     @GetMapping("/todos")
+    @Operation(description = "Realiza a busca paginada de todos os livros")
+    public ResponseEntity<Page<Livros>> buscarTodosLivros(Pageable pageable) {
+        Page<Livros> livros = livroService.listarLivrosPaginados(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(livros);
+    }
+
+    @GetMapping("/todos/sem-paginacao")
     @Operation(description = "Realiza a busca de todos os livros cadastrados")
     public ResponseEntity<List<Livros>> buscarTodosLivros() {
         List<Livros> livros = livroService.listarTodosLivros();

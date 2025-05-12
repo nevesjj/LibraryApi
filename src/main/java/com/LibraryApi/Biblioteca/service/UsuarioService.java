@@ -1,10 +1,14 @@
 package com.LibraryApi.Biblioteca.service;
 
+import com.LibraryApi.Biblioteca.entity.Emprestimos;
+import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.repository.UsuarioRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +51,9 @@ public class UsuarioService {
 
     public List<Usuarios> listarTodosUsuarios() {
         return usuarioRepositorio.findAll();
+    }
+
+    public Page<Usuarios> listarUsuariosPaginados(Pageable pageable) {
+        return usuarioRepositorio.findAll(pageable);
     }
 }

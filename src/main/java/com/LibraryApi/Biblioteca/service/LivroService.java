@@ -1,10 +1,13 @@
 package com.LibraryApi.Biblioteca.service;
 
+import com.LibraryApi.Biblioteca.entity.Emprestimos;
 import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.repository.LivroRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -42,6 +45,9 @@ public class LivroService {
 
     public List<Livros> listarTodosLivros() {
         return livroRepositorio.findAll();
+    }
+
+    public Page<Livros> listarLivrosPaginados(Pageable pageable) {return livroRepositorio.findAll(pageable);
     }
 
     public List<Map<String, Object>> buscarLivrosMaisEmprestados() {

@@ -1,11 +1,14 @@
 package com.LibraryApi.Biblioteca.controller;
 
+import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +39,13 @@ public class UsuarioController {
     }
 
     @GetMapping("/todos")
+    @Operation(description = "Realiza a busca paginada de todos os usuarios")
+    public ResponseEntity<Page<Usuarios>> buscarTodosUsuarios(Pageable pageable) {
+        Page<Usuarios> usuarios = usuarioService.listarUsuariosPaginados(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    }
+
+    @GetMapping("/todos/sem-paginacao")
     @Operation(description = "Realiza a busca de todos os usuários cadastrados")
     public ResponseEntity<List<Usuarios>> buscarTodosUsuarios() {
         List<Usuarios> usuarios = usuarioService.listarTodosUsuarios();
