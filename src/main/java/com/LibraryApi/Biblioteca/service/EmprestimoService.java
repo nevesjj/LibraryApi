@@ -1,10 +1,13 @@
 package com.LibraryApi.Biblioteca.service;
 
 import com.LibraryApi.Biblioteca.entity.Emprestimos;
+import com.LibraryApi.Biblioteca.entity.Livros;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.LimiteEmprestimosExcedidoException;
+import com.LibraryApi.Biblioteca.exception.LivroIndisponivelException;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.repository.EmprestimoRepositorio;
+import com.LibraryApi.Biblioteca.repository.LivroRepositorio;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,17 +24,28 @@ public class EmprestimoService {
 
     @Autowired
     private EmprestimoRepositorio emprestimoRepositorio;
-
+    @Autowired
+    private LivroRepositorio livroRepositorio;
 
     @Transactional
     public Emprestimos cadastrarEmprestimo(Emprestimos emprestimo) {
         Usuarios usuario = emprestimo.getId_usuario();
+        Livros livro = emprestimo.getId_livro();
 
-        long emprestimosAtivos = emprestimoRepositorio.countById_usuario(usuario);
+        long emprestimosAtivos = emprestimoRepositorio.countById_usuarioAndDevolvidoFalse(usuario);
 
         if (emprestimosAtivos >= limite_emprestimos) {
             throw new LimiteEmprestimosExcedidoException("Usuario ja atingiu o limite de emprestimos ativos.");
         }
+
+        if (livro.getQuantidade() <= 0){
+            throw new LivroIndisponivelException("Livro fora de estoque.");
+        }
+
+        livro.setQuantidade(livro.getQuantidade() - 1);
+        livroRepositorio.save(livro);
+        emprestimo.setDevolucao(false);
+
         return emprestimoRepositorio.save(emprestimo);
     }
 
@@ -55,11 +69,9 @@ public class EmprestimoService {
     public Emprestimos devolverLivro(Long idEmprestimo) {
         Emprestimos emprestimo = emprestimoRepositorio.findById(idEmprestimo)
                 .orElseThrow(() -> new ResourceNotFoundException("Empréstimo não encontrado"));
-
         if (!emprestimo.isDevolucao()) {
             emprestimo.setDevolucao(true);
         }
-
         return emprestimoRepositorio.save(emprestimo);
     }
 
