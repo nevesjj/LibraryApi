@@ -32,7 +32,7 @@ public class EmprestimoService {
         Usuarios usuario = emprestimo.getId_usuario();
         Livros livro = emprestimo.getId_livro();
 
-        long emprestimosAtivos = emprestimoRepositorio.countById_usuarioAndDevolvidoFalse(usuario);
+        long emprestimosAtivos = emprestimoRepositorio.countEmprestimosAtivosPorUsuario(usuario);
 
         if (emprestimosAtivos >= limite_emprestimos) {
             throw new LimiteEmprestimosExcedidoException("Usuario ja atingiu o limite de emprestimos ativos.");
@@ -69,9 +69,15 @@ public class EmprestimoService {
     public Emprestimos devolverLivro(Long idEmprestimo) {
         Emprestimos emprestimo = emprestimoRepositorio.findById(idEmprestimo)
                 .orElseThrow(() -> new ResourceNotFoundException("Empréstimo não encontrado"));
-        if (!emprestimo.isDevolucao()) {
-            emprestimo.setDevolucao(true);
+        if (emprestimo.isDevolucao()) {
+            throw new RuntimeException("Este livro ja foi devolvido");
         }
+
+        emprestimo.setDevolucao(true);
+        Livros livro = emprestimo.getId_livro();
+        livro.setQuantidade(livro.getQuantidade() + 1);
+        livroRepositorio.save(livro);
+
         return emprestimoRepositorio.save(emprestimo);
     }
 
