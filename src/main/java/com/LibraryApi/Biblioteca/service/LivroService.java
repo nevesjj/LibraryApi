@@ -33,7 +33,7 @@ public class LivroService {
             livros.setTitulo(livroAtualizado.getTitulo());
             livros.setAutor(livroAtualizado.getAutor());
             livros.setGenero(livroAtualizado.getGenero());
-            livros.setData_publicacao(livroAtualizado.getData_publicacao());
+            livros.setDataPublicacao(livroAtualizado.getDataPublicacao());
             return livroRepositorio.save(livros);
         }).orElseThrow(() -> new ResourceNotFoundException("Id " + id + " não encontrado"));
     }

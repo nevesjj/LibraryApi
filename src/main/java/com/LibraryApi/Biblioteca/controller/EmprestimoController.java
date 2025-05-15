@@ -1,6 +1,6 @@
 package com.LibraryApi.Biblioteca.controller;
 
-import com.LibraryApi.Biblioteca.entity.Emprestimos;
+import com.LibraryApi.Biblioteca.dto.EmprestimoDTO;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.EmprestimoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,58 +23,52 @@ public class EmprestimoController {
     private final EmprestimoService emprestimoService;
 
     @PostMapping
-    @Operation(description = "Realizar o cadastro de um novo empréstimos, cada usuário pode ter no máximo 5 empréstimos")
-    public ResponseEntity<Emprestimos> criarEmprestimo(@RequestBody Emprestimos emprestimos) {
-        Emprestimos emprestimoSalvo = emprestimoService.cadastrarEmprestimo(emprestimos);
-        return ResponseEntity.status(HttpStatus.CREATED).body(emprestimoSalvo);
+    @Operation(description = "Realizar o cadastro de um novo empréstimo, cada usuário pode ter no máximo 5 empréstimos")
+    public ResponseEntity<EmprestimoDTO> criarEmprestimo(@RequestBody EmprestimoDTO emprestimoDTO) {
+        EmprestimoDTO dtoSalvo = emprestimoService.cadastrarEmprestimo(emprestimoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dtoSalvo);
     }
 
     @GetMapping("/{id}")
     @Operation(description = "Realiza a busca de um empréstimo com base no seu id")
-    public ResponseEntity<Emprestimos> buscarEmprestimo(@PathVariable Long id) {
-        Optional<Emprestimos> emprestimos = emprestimoService.buscarEmprestimo(id);
-        return ResponseEntity.status(HttpStatus.OK).body(emprestimos.get());
+    public ResponseEntity<EmprestimoDTO> buscarEmprestimo(@PathVariable Long id) {
+        EmprestimoDTO dto = emprestimoService.buscarEmprestimo(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Empréstimo não encontrado"));
+        return ResponseEntity.ok(dto);
     }
+
     @GetMapping("/todos")
     @Operation(description = "Realiza a busca paginada de todos os empréstimos")
-    public ResponseEntity<Page<Emprestimos>> buscarTodosEmprestimos(Pageable pageable) {
-        Page<Emprestimos> emprestimos = emprestimoService.listarEmprestimosPaginados(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(emprestimos);
+    public ResponseEntity<Page<EmprestimoDTO>> buscarTodosEmprestimos(Pageable pageable) {
+        Page<EmprestimoDTO> pageDTO = emprestimoService.listarEmprestimosPaginados(pageable);
+        return ResponseEntity.ok(pageDTO);
     }
 
     @GetMapping("/todos/sem-paginacao")
-    @Operation(description = "Realiza a busca todos os empréstimos")
-    public ResponseEntity<List<Emprestimos>> buscarTodosEmprestimos() {
-        List<Emprestimos> emprestimos = emprestimoService.listarTodosEmprestimos();
-        return ResponseEntity.status(HttpStatus.OK).body(emprestimos);
+    @Operation(description = "Realiza a busca de todos os empréstimos")
+    public ResponseEntity<List<EmprestimoDTO>> buscarTodosEmprestimos() {
+        List<EmprestimoDTO> listaDTO = emprestimoService.listarTodosEmprestimos();
+        return ResponseEntity.ok(listaDTO);
     }
-
 
     @PutMapping("/{id}")
     @Operation(description = "Atualizar as informações de um empréstimo com base no seu id")
-    public ResponseEntity<Emprestimos> atualizarEmprestimo(@PathVariable Long id, @RequestBody Emprestimos emprestimo) {
-        try {
-            Emprestimos atualizarEmprestimo = emprestimoService.atualizarEmprestimo(id, emprestimo);
-            return ResponseEntity.status(HttpStatus.OK).body(atualizarEmprestimo);
-        } catch (ResourceNotFoundException e) {
-            throw e;
-        }
+    public ResponseEntity<EmprestimoDTO> atualizarEmprestimo(@PathVariable Long id, @RequestBody EmprestimoDTO emprestimoDTO) {
+        EmprestimoDTO dtoAtualizado = emprestimoService.atualizarEmprestimo(id, emprestimoDTO);
+        return ResponseEntity.ok(dtoAtualizado);
     }
 
     @PatchMapping("/{id}/devolver")
     @Operation(description = "Realizar a devolução de um livro")
-    public ResponseEntity<Emprestimos> devolverLivro(@PathVariable Long id) {
-        Emprestimos emprestimo = emprestimoService.devolverLivro(id);
-        return ResponseEntity.status(HttpStatus.OK).body(emprestimo);
+    public ResponseEntity<EmprestimoDTO> devolverLivro(@PathVariable Long id) {
+        EmprestimoDTO dto = emprestimoService.devolverLivro(id);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "Deletar um empréstimo com base no seu id")
     public ResponseEntity<Void> deletarEmprestimo(@PathVariable Long id) {
         emprestimoService.deletarEmprestimo(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
-
-
-
 }

@@ -11,7 +11,8 @@ import java.util.List;
 public interface UsuarioRepositorio extends JpaRepository<Usuarios, Long> {
 
     @Query("SELECT DISTINCT u FROM Usuarios u " +
-            "JOIN Emprestimos e ON u.id_usuario = e.id_usuario.id_usuario " +
+            "JOIN Emprestimos e ON e.usuario = u " +
             "WHERE e.devolucao = false")
     List<Usuarios> buscarUsuariosComEmprestimosPendentes();
+
 }

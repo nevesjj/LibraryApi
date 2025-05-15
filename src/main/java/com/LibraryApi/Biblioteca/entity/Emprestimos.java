@@ -12,24 +12,30 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
+@Table(name = "emprestimos")
 public class Emprestimos {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_emprestimo")
     private Long id_emprestimo;
+
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false, referencedColumnName = "id_usuario")
-    private Usuarios id_usuario;
+    private Usuarios usuario;
+
     @ManyToOne
     @JoinColumn(name = "id_livro", nullable = false, referencedColumnName = "id_livro")
-    private Livros id_livro;
+    private Livros livro;
+
     @Column(name = "data_emprestimo", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataEmprestimo;
+
     @Column(name = "data_limite", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataLimite;
+
     @Column(name = "devolucao", nullable = false)
     private boolean devolucao;
 }

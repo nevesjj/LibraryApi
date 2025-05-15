@@ -26,11 +26,11 @@ public class Livros implements Serializable {
     private String titulo;
     @Column(name = "autor", nullable = false, length = 50)
     private String autor;
-    @Column(name = "genero", nullable = false, length = 25)
+    @Column(name = "genero", nullable = false, length = 40)
     private String genero;
     @Column(name = "data_publicacao", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private LocalDate data_publicacao;
+    private LocalDate dataPublicacao;
     @Column(name = "quantidade", nullable = false)
     @NotNull(message = "Quantidade não pode ser nula")
     @Min(0)

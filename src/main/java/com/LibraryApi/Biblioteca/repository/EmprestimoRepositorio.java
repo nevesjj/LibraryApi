@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmprestimoRepositorio extends JpaRepository<Emprestimos, Long> {
-
-    @Query("SELECT COUNT(e) FROM Emprestimos e WHERE e.id_usuario = :usuario AND e.devolucao = false")
+    @Query("SELECT COUNT(e) FROM Emprestimos e WHERE e.usuario = :usuario AND e.devolucao = false")
     long countEmprestimosAtivosPorUsuario(@Param("usuario") Usuarios usuario);
 
-
 }
+
