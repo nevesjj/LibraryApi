@@ -98,9 +98,5 @@ Este projeto é dedicado ao domínio público sob a [CC0 1.0 Universal (CC0 1.0)
 4. Abra um **Pull Request** explicando as mudanças que você fez.
 
 ## Autores
-- João Victor dos Santos Neves - 01577265
-- Arthur Axiotes de Souza - 01595285
-- Raul Gabriel Camelo Silva - 01623021
-- Vinícius Júnior - 01577523
-- Gabriel Vendiciano Barbosa - 01527603
-- Otton Arantes dos Santos - 01595267
+- João Victor
+- Arthur Axiotes
