@@ -12,6 +12,7 @@ API RESTful desenvolvida para realizar o gerenciamento de livros em uma bibliote
     - Cadastrar, deletar e atualizar livros
     - Realizar buscas de todos os livros ou livros específicos
     - Realizar buscas dos livros mais emprestados
+    - Controle de estoque de livros
     
 - **Controle de empréstimos**
     - Realizar um novo empréstimo (Cada usuário pode realizar no máximo 5 empréstimos simultâneos)
