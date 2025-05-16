@@ -1,11 +1,10 @@
 package com.LibraryApi.Biblioteca.controller;
 
-import com.LibraryApi.Biblioteca.entity.Emprestimos;
-import com.LibraryApi.Biblioteca.entity.Livros;
-import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
+import com.LibraryApi.Biblioteca.dto.LivrosDTO;
 import com.LibraryApi.Biblioteca.service.LivroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,54 +25,50 @@ public class LivroController {
 
     @PostMapping
     @Operation(description = "Realizar o cadastro de um novo livro")
-    public ResponseEntity<Livros> criarLivro(@RequestBody Livros livro) {
-        Livros livroSalvo = livroService.cadastrarLivro(livro);
+    public ResponseEntity<LivrosDTO> criarLivro(@RequestBody @Valid LivrosDTO livroDTO) {
+        LivrosDTO livroSalvo = livroService.cadastrarLivro(livroDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
     }
 
     @GetMapping("/{id}")
     @Operation(description = "Realiza a busca de um livro com base no seu id")
-    public ResponseEntity<Livros> buscarLivro(@PathVariable Long id) {
-        Optional<Livros> livros = livroService.buscarLivro(id);
-        return ResponseEntity.status(HttpStatus.OK).body(livros.get());
+    public ResponseEntity<LivrosDTO> buscarLivro(@PathVariable Long id) {
+        LivrosDTO livro = livroService.buscarLivro(id);
+        return ResponseEntity.ok(livro);
     }
 
     @GetMapping("/todos")
     @Operation(description = "Realiza a busca paginada de todos os livros")
-    public ResponseEntity<Page<Livros>> buscarTodosLivros(Pageable pageable) {
-        Page<Livros> livros = livroService.listarLivrosPaginados(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(livros);
+    public ResponseEntity<Page<LivrosDTO>> buscarTodosLivros(Pageable pageable) {
+        Page<LivrosDTO> livros = livroService.listarLivrosPaginados(pageable);
+        return ResponseEntity.ok(livros);
     }
 
     @GetMapping("/todos/sem-paginacao")
     @Operation(description = "Realiza a busca de todos os livros cadastrados")
-    public ResponseEntity<List<Livros>> buscarTodosLivros() {
-        List<Livros> livros = livroService.listarTodosLivros();
-        return ResponseEntity.status(HttpStatus.OK).body(livros);
+    public ResponseEntity<List<LivrosDTO>> buscarTodosLivros() {
+        List<LivrosDTO> livros = livroService.listarTodosLivros();
+        return ResponseEntity.ok(livros);
     }
 
     @GetMapping("/mais-emprestados")
     @Operation(description = "Realiza a busca dos livros com mais empréstimos")
     public ResponseEntity<List<Map<String, Object>>> buscarLivrosMaisEmprestados() {
         List<Map<String, Object>> livrosMaisEmprestados = livroService.buscarLivrosMaisEmprestados();
-        return ResponseEntity.status(HttpStatus.OK).body(livrosMaisEmprestados);
+        return ResponseEntity.ok(livrosMaisEmprestados);
     }
 
     @PutMapping("/{id}")
     @Operation(description = "Atualizar as informações de um livro com base no seu id")
-    public ResponseEntity<Livros> atualizarLivro(@PathVariable Long id, @RequestBody Livros livro) {
-        try {
-            Livros atualizarLivro = livroService.atualizarLivro(id, livro);
-            return ResponseEntity.status(HttpStatus.OK).body(atualizarLivro);
-        } catch (ResourceNotFoundException e) {
-            throw e;
-        }
+    public ResponseEntity<LivrosDTO> atualizarLivro(@PathVariable Long id, @RequestBody @Valid LivrosDTO livroDTO) {
+        LivrosDTO atualizado = livroService.atualizarLivro(id, livroDTO);
+        return ResponseEntity.ok(atualizado);
     }
 
     @DeleteMapping("/{id}")
     @Operation(description = "Deletar o cadastro de um livro com base no seu id")
     public ResponseEntity<Void> deletarLivro(@PathVariable Long id) {
         livroService.deletarLivro(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }

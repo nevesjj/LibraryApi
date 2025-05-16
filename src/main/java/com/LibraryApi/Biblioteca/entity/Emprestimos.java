@@ -18,7 +18,7 @@ public class Emprestimos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_emprestimo")
-    private Long id_emprestimo;
+    private Long idEmprestimo;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false, referencedColumnName = "id_usuario")

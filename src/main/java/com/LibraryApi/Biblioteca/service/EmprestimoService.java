@@ -25,9 +25,9 @@ public class EmprestimoService {
 
     private EmprestimoDTO toDTO(Emprestimos emprestimo) {
         EmprestimoDTO dto = new EmprestimoDTO();
-        dto.setId_emprestimo(emprestimo.getId_emprestimo());
-        dto.setIdUsuario(emprestimo.getUsuario().getId_usuario());
-        dto.setIdLivro(emprestimo.getLivro().getId_livro());
+        dto.setId_emprestimo(emprestimo.getIdEmprestimo());
+        dto.setIdUsuario(emprestimo.getUsuario().getIdUsuario());
+        dto.setIdLivro(emprestimo.getLivro().getIdLivro());
         dto.setDataEmprestimo(emprestimo.getDataEmprestimo());
         dto.setDataLimite(emprestimo.getDataLimite());
         dto.setDevolucao(emprestimo.isDevolucao());
@@ -36,7 +36,7 @@ public class EmprestimoService {
 
     private Emprestimos toEntity(EmprestimoDTO dto, Usuarios usuario, Livros livro) {
         Emprestimos emprestimo = new Emprestimos();
-        emprestimo.setId_emprestimo(dto.getId_emprestimo());
+        emprestimo.setIdEmprestimo(dto.getId_emprestimo());
         emprestimo.setUsuario(usuario);
         emprestimo.setLivro(livro);
         emprestimo.setDataEmprestimo(dto.getDataEmprestimo());
@@ -46,7 +46,7 @@ public class EmprestimoService {
     }
 
 
-    private static final int limite_emprestimos = 5;
+    private static final int limiteEmprestimos = 5;
 
     @Autowired
     private EmprestimoRepositorio emprestimoRepositorio;
@@ -65,7 +65,7 @@ public class EmprestimoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado"));
 
         long emprestimosAtivos = emprestimoRepositorio.countEmprestimosAtivosPorUsuario(usuario);
-        if (emprestimosAtivos >= limite_emprestimos) {
+        if (emprestimosAtivos >= limiteEmprestimos) {
             throw new LimiteEmprestimosExcedidoException("Usuário já atingiu o limite de empréstimos ativos.");
         }
 

@@ -1,11 +1,12 @@
 package com.LibraryApi.Biblioteca.controller;
 
-import com.LibraryApi.Biblioteca.entity.Livros;
+import com.LibraryApi.Biblioteca.dto.UsuariosDTO;
 import com.LibraryApi.Biblioteca.entity.Usuarios;
 import com.LibraryApi.Biblioteca.exception.ResourceNotFoundException;
 import com.LibraryApi.Biblioteca.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,35 +26,37 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @PostMapping
-    @Operation(description = "Realiza o cadastro de um novo usuários")
-    public ResponseEntity<Usuarios> criarUsuario(@RequestBody Usuarios usuario) {
-        Usuarios usuarioSalvo = usuarioService.criarUsuario(usuario);
+    @Operation(description = "Realiza o cadastro de um novo usuário")
+    public ResponseEntity<UsuariosDTO> criarUsuario(@Valid @RequestBody UsuariosDTO usuarioDTO) {
+        UsuariosDTO usuarioSalvo = usuarioService.criarUsuario(usuarioDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvo);
     }
 
     @GetMapping("/{id}")
     @Operation(description = "Realiza a busca de um usuário com base no seu id")
-    public ResponseEntity<Usuarios> buscarUsuario(@PathVariable Long id) {
-        Optional<Usuarios> usuarios = usuarioService.buscarUsuario(id);
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios.get());
+    public ResponseEntity<UsuariosDTO> buscarUsuario(@PathVariable Long id) {
+        Optional<UsuariosDTO> usuarioDTO = usuarioService.buscarUsuario(id);
+        return usuarioDTO
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/todos")
-    @Operation(description = "Realiza a busca paginada de todos os usuarios")
-    public ResponseEntity<Page<Usuarios>> buscarTodosUsuarios(Pageable pageable) {
-        Page<Usuarios> usuarios = usuarioService.listarUsuariosPaginados(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    @Operation(description = "Realiza a busca paginada de todos os usuários")
+    public ResponseEntity<Page<UsuariosDTO>> buscarTodosUsuarios(Pageable pageable) {
+        Page<UsuariosDTO> usuarios = usuarioService.listarUsuariosPaginados(pageable);
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/todos/sem-paginacao")
     @Operation(description = "Realiza a busca de todos os usuários cadastrados")
-    public ResponseEntity<List<Usuarios>> buscarTodosUsuarios() {
-        List<Usuarios> usuarios = usuarioService.listarTodosUsuarios();
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+    public ResponseEntity<List<UsuariosDTO>> buscarTodosUsuarios() {
+        List<UsuariosDTO> usuarios = usuarioService.listarTodosUsuarios();
+        return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/emprestimos")
-    @Operation(description = "Realiza a busca de todos os usuários com empréstimos pendenetes")
+    @Operation(description = "Realiza a busca de todos os usuários com empréstimos pendentes")
     public ResponseEntity<List<Usuarios>> buscarUsuariosComEmprestimosPendentes() {
         List<Usuarios> usuarios = usuarioService.buscarUsuariosComEmprestimosPendentes();
         return ResponseEntity.ok(usuarios);
@@ -61,21 +64,19 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     @Operation(description = "Atualizar as informações de um usuário com base no seu id")
-    public ResponseEntity<Usuarios> atualizarUsuario(@PathVariable Long id, @RequestBody Usuarios usuario) {
+    public ResponseEntity<UsuariosDTO> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuariosDTO usuarioDTO) {
         try {
-            Usuarios atualizarUsuario = usuarioService.atualizarUsuario(id, usuario);
-            return ResponseEntity.status(HttpStatus.OK).body(atualizarUsuario);
+            UsuariosDTO atualizado = usuarioService.atualizarUsuario(id, usuarioDTO);
+            return ResponseEntity.ok(atualizado);
         } catch (ResourceNotFoundException e) {
-            throw e;
+            return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    @Operation(description = "Deletar o cadastro de um livro com base no seu id")
+    @Operation(description = "Deletar o cadastro de um usuário com base no seu id")
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
-
-
 }
