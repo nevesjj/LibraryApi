@@ -185,5 +185,24 @@ class UsuarioServiceTest {
             assertEquals("Maria", resultado.getContent().get(1).getNome());
             verify(usuarioRepositorio).findAll(pageable);
         }
+
+        @Test
+        @DisplayName("Deve retornar usuários com empréstimos pendentes")
+        void deveBuscarUsuariosComEmprestimosPendentes() {
+            // arrange
+            List<Usuarios> pendentes = List.of(
+                    new Usuarios(1L, "João", "(81) 99999-0000", "Rua 1", "joao@email.com")
+            );
+
+            when(usuarioRepositorio.buscarUsuariosComEmprestimosPendentes()).thenReturn(pendentes);
+
+            // act
+            List<Usuarios> resultado = usuarioService.buscarUsuariosComEmprestimosPendentes();
+
+            // assert
+            assertEquals(1, resultado.size());
+            assertEquals("João", resultado.get(0).getNome());
+            verify(usuarioRepositorio).buscarUsuariosComEmprestimosPendentes();
+        }
     }
 }
