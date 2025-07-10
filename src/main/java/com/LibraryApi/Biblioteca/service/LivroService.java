@@ -53,7 +53,6 @@ public class LivroService {
         livroRepositorio.deleteById(id);
     }
 
-
     public List<LivrosDTO> listarTodosLivros() {
         return livroRepositorio.findAll()
                 .stream()

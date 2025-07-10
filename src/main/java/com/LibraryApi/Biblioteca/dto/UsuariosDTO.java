@@ -3,6 +3,7 @@ package com.LibraryApi.Biblioteca.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class UsuariosDTO {
 
     private Long idUsuario;
@@ -26,4 +28,11 @@ public class UsuariosDTO {
     @NotNull(message = "O email é obrigatório")
     @Email(message = "Informe um email válido")
     private String email;
+
+    public UsuariosDTO(String nome, String telefone, String endereco, String email) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.email = email;
+    }
 }

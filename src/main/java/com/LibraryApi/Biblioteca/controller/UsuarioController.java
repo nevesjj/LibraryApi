@@ -55,7 +55,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    @GetMapping("/emprestimos")
+    @GetMapping("/emprestimos-ativos")
     @Operation(description = "Realiza a busca de todos os usuários com empréstimos pendentes")
     public ResponseEntity<List<Usuarios>> buscarUsuariosComEmprestimosPendentes() {
         List<Usuarios> usuarios = usuarioService.buscarUsuariosComEmprestimosPendentes();
