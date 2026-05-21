@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("v1/usuarios")
 @Tag(name = "Usuários")
 public class UsuarioController {

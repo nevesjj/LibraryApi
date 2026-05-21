@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("v1/livros")
 @Tag(name = "Livros")
 public class LivroController {
