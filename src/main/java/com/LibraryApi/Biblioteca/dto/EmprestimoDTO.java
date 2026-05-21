@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -23,4 +24,9 @@ public class EmprestimoDTO {
     private LocalDate dataLimite;
 
     private boolean devolucao;
+
+    private LocalDate dataDevolucao;
+
+    private BigDecimal valorMulta;
+
 }

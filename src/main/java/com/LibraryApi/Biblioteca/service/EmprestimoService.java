@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +33,9 @@ public class EmprestimoService {
         dto.setDataEmprestimo(emprestimo.getDataEmprestimo());
         dto.setDataLimite(emprestimo.getDataLimite());
         dto.setDevolucao(emprestimo.isDevolucao());
+        dto.setDataDevolucao(emprestimo.getDataDevolucao());
+        dto.setValorMulta(emprestimo.getValorMulta());
+
         return dto;
     }
 
@@ -110,11 +115,11 @@ public class EmprestimoService {
     public EmprestimoDTO devolverLivro(Long idEmprestimo) {
         Emprestimos emprestimo = emprestimoRepositorio.findById(idEmprestimo)
                 .orElseThrow(() -> new ResourceNotFoundException("Empréstimo não encontrado"));
-        if (emprestimo.isDevolucao()) {
-            throw new RuntimeException("Este livro já foi devolvido");
-        }
 
-        emprestimo.setDevolucao(true);
+        BigDecimal taxaDiaria = new BigDecimal("2.50");
+
+        emprestimo.registrarDevolucao(LocalDate.now(), taxaDiaria);
+
         Livros livro = emprestimo.getLivro();
         livro.setQuantidade(livro.getQuantidade() + 1);
         livroRepositorio.save(livro);
